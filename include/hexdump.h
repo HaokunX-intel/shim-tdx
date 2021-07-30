@@ -137,12 +137,20 @@ hexdumpat(const char *file, int line, const char *func, const void *data, unsign
 	hexdumpf(file, line, func, L"", data, size, at);
 }
 
+#ifndef SHIM_UNIT_TEST
 #define LogHexdump(data, sz) LogHexdump_(__FILE__, __LINE__, __func__, data, sz)
 #define dhexdump(data, sz)   hexdump(__FILE__, __LINE__, __func__, data, sz)
 #define dhexdumpat(data, sz, at) \
 	hexdumpat(__FILE__, __LINE__ - 1, __func__, data, sz, at)
 #define dhexdumpf(fmt, data, sz, at, ...) \
 	hexdumpf(__FILE__, __LINE__ - 1, __func__, fmt, data, sz, at, ##__VA_ARGS__)
+
+#else
+#define LogHexdump(data, sz)
+#define dhexdump(data, sz)
+#define dhexdumpat(data, sz, at)
+#define dhexdumpf(fmt, data, sz, at, ...)
+#endif
 
 #endif /* STATIC_HEXDUMP_H */
 // vim:fenc=utf-8:tw=75:noet

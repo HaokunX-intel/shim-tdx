@@ -1471,6 +1471,9 @@ EFI_STATUS set_second_stage (EFI_HANDLE image_handle)
 		return efi_status;
 	}
 
+	dprint(L"full load options:\n");
+	dhexdumpat(li->LoadOptions, li->LoadOptionsSize, 0);
+
 	/* Sanity check since we make several assumptions about the length */
 	if (li->LoadOptionsSize % 2 != 0)
 		return EFI_INVALID_PARAMETER;
