@@ -1485,6 +1485,17 @@ EFI_STATUS set_second_stage (EFI_HANDLE image_handle)
 		return efi_status;
 	}
 
+#if defined(DISABLE_REMOVABLE_LOAD_OPTIONS)
+	/*
+	 * boot services build very strange load options, and we might misparse them,
+	 * causing boot failures on removable media.
+	 */
+	if (is_removable_media_path(li)) {
+		dprint("Invoked from removable media path, ignoring boot options");
+		return EFI_SUCCESS;
+	}
+#endif
+
 	dprint(L"full load options:\n");
 	dhexdumpat(li->LoadOptions, li->LoadOptionsSize, 0);
 
